@@ -43,7 +43,7 @@ module top_module(
 						end
 						
             FALL_RIGHT: begin
-                if(ground == 1'b1 && g_Count >19)
+						if(ground == 1'b1 && g_Count > 20)
 							next_state = SLPAT;
 						else if(ground == 1'b1) 
 							next_state = WALK_RIGHT;
@@ -52,7 +52,7 @@ module top_module(
 						end
 						
             FALL_LEFT: begin
-                if(ground == 1'b1 && g_Count > 19) 
+					   if(ground == 1'b1 && g_Count > 20) 
 							next_state = SLPAT;
 					   else if(ground == 1'b1) 
 							next_state = WALK_LEFT;
@@ -72,7 +72,7 @@ module top_module(
     always @(posedge clk, posedge areset)begin
         if (areset)
             g_Count <= 0;
-        else if (aaah)
+	    else if (next_state == FALL_RIGHT || next_state == FALL_LEFT)  // 必须采用next_state，否则计数器的值和实际值相差1
             g_Count <= g_Count + 1;  // count +1 while still falling
         else
             g_Count <= 0;
